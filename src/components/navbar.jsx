@@ -30,17 +30,20 @@ const ResponsiveAppBar = () => {
   };
 
   const handleCloseNavMenu = (e) => {
-    console.log('Value:', e.currentTarget.value);
-    const value = e.currentTarget.value;
+    setAnchorElNav(null);
+    navigateToView(e);
+  };
+
+  const navigateToView = (e) => {
+    const value = Number(e.currentTarget.value);
     if (value === 0){
-        navigateTo('/sheets');
+        navigateTo('sheets');
     } else if (value === 1) {
         navigateTo('/')
     } else if (value === 2) {
-        navigateTo('/info')
+        navigateTo('info')
     }
-    setAnchorElNav(null);
-  };
+  }
 
 
   return (
