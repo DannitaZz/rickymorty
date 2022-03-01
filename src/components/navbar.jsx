@@ -13,20 +13,32 @@ import MenuItem from '@mui/material/MenuItem';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import { CardMedia } from '@mui/material';
 import rick from '../img/rick.png';
+import { useNavigate } from 'react-router';
 
 const pages = ['Láminas', 'Mi álbum', 'Info'];
 
 const ResponsiveAppBar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
+  const navigateTo = useNavigate();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
+    
   };
   const handleOpenUserMenu = () => {
     console.log('cerrar sesión');
   };
 
-  const handleCloseNavMenu = () => {
+  const handleCloseNavMenu = (e) => {
+    console.log('Value:', e.currentTarget.value);
+    const value = e.currentTarget.value;
+    if (value === 0){
+        navigateTo('/sheets');
+    } else if (value === 1) {
+        navigateTo('/')
+    } else if (value === 2) {
+        navigateTo('/info')
+    }
     setAnchorElNav(null);
   };
 
@@ -81,8 +93,8 @@ const ResponsiveAppBar = () => {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
+              {pages.map((page, i) => (
+                <MenuItem key={page} value={i} onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}
@@ -94,12 +106,13 @@ const ResponsiveAppBar = () => {
             component="div"
             sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}
           >
-            LOGO
+            Rick and Morty
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
+            {pages.map((page, i) => (
               <Button
                 key={page}
+                value={i}
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
