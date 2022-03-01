@@ -20,7 +20,6 @@ function App() {
             path="info"
             element={
               <Info
-                data={state.data}
                 currentData={state.infoPage.currentData}
                 page={state.infoPage.page}
                 count={state.count}

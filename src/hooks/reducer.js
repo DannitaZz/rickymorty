@@ -12,7 +12,12 @@ export const reducer = (state, action) => {
     case "getData":
       const data = action.data;
       const count = action.count;
-      return { ...state, data: data, count: count };
+      return {
+        ...state,
+        data: data,
+        count: count,
+        infoPage: { ...state.infoPage, currentData: data, page: 1 },
+      };
     case "setInfoPage":
       return {
         ...state,

@@ -6,29 +6,27 @@ import axios from 'axios';
 
 export default function PaginationControlled({ count, page, dispatch }) {
 
-
     const handleChange = async (event, value) => {
+
         const bodyRepo = {
             "query": `
-            query {
-                characters(page: ${Number(value)})  {
-                  info {
-                    count
+                query {
+                    characters(page: ${Number(value)})  {
+                      results {
+                        image, name, 
+                        status, species, gender
+                      }
+                    }
                   }
-                  results {
-                    image, name, 
-                    status, species, gender
-                  }
-                }
-              }
-            
-        `
+                
+            `
         }
 
         const baseUrl = "https://rickandmortyapi.com/graphql";
         const headers = {
             "Content-Type": "application/json"
         }
+
         const response = await axios({ method: "post", url: baseUrl, data: JSON.stringify(bodyRepo), headers: headers });
         const fulldata = response.data.data.characters.results;
         dispatch({ type: 'setInfoPage', page: value, currentData: fulldata })
