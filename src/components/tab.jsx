@@ -5,6 +5,7 @@ import Tab from '@mui/material/Tab';
 import Characters from './characters';
 import { Locations } from './locations';
 import { Provider } from '../context/context';
+import { Origins } from './origins';
 
 export default function CenteredTabs() {
     const [value, setValue] = React.useState('1');
@@ -30,7 +31,7 @@ export default function CenteredTabs() {
                         case '2':
                             return <Locations />
                         case '3':
-                            return <h1>Orígenes</h1>
+                            return <Origins />
                         default:
                             break;
                     }
