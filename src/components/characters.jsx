@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios';
 import List from './list';
 import PaginationControlled from './pagination';
+import { useConsumer } from '../context/context';
 
-export default function Characters({ data, currentData, page, count, dispatch }) {
+export default function Characters({ count }) {
+    const [state, dispatch] = useConsumer();
     const bodyRepo = {
         "query": `
         query {
-            characters(page: ${Number(page)})  {
+            characters(page: ${Number(state.infoPage.page)})  {
               info {
                 count
               }
@@ -46,8 +48,8 @@ export default function Characters({ data, currentData, page, count, dispatch })
 
     return (
         <>
-            <List currentData={currentData} />
-            <PaginationControlled count={parseInt(count / 20)} page={page} dispatch={dispatch} />
+            <List currentData={state.infoPage.currentData} />
+            <PaginationControlled count={parseInt(state.count / 20)} page={state.infoPage.page} dispatch={dispatch} />
         </>
     )
 }

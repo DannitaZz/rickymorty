@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Typography from '@mui/material/Typography';
-import { Stack } from '@mui/material';
 import Accordion from '@mui/material/Accordion';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import PaginationLocation from './pagination-location';
+import { useConsumer } from '../context/context';
 
-export function Locations({ locationCount, locations, locationsPage, dispatch }) {
+export function Locations() {
+    const [state, dispatch] = useConsumer();
     const bodyRepo = {
         "query": `
         query {
@@ -64,7 +65,7 @@ export function Locations({ locationCount, locations, locationsPage, dispatch })
 
     return (
         <>
-            {locations.map((location, i) => {
+            {state.infoPage.currentLocations.map((location, i) => {
                 return (
                     <Accordion key={'ac' + i} expanded={expanded === `panel${i}`} onChange={handleChange(`panel${i}`)}>
                         <AccordionSummary
@@ -87,7 +88,7 @@ export function Locations({ locationCount, locations, locationsPage, dispatch })
                     </Accordion>
                 )
             })}
-            <PaginationLocation count={parseInt(locationCount / 20)} page={locationsPage} dispatch={dispatch} />
+            <PaginationLocation count={parseInt(state.locationCount / 20)} page={state.infoPage.locationPage} dispatch={dispatch} />
         </>
     )
 }
