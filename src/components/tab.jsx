@@ -3,8 +3,9 @@ import Box from '@mui/material/Box';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Characters from './characters';
+import { Locations } from './locations';
 
-export default function CenteredTabs({ currentData, page, count, dispatch }) {
+export default function CenteredTabs({ locationCount, currentData, locations, locationsPage, page, count, dispatch }) {
     const [value, setValue] = React.useState('1');
 
     const handleChange = (event, newValue) => {
@@ -25,7 +26,7 @@ export default function CenteredTabs({ currentData, page, count, dispatch }) {
                     case '1':
                         return <Characters currentData={currentData} page={page} count={count} dispatch={dispatch} />
                     case '2':
-                        return <h1>Ubicaciones</h1>
+                        return <Locations locations={locations} locationCount={locationCount} locationsPage={locationsPage} dispatch={dispatch} />
                     case '3':
                         return <h1>Orígenes</h1>
                     default:

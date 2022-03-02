@@ -12,7 +12,7 @@ export default function Characters({ data, currentData, page, count, dispatch })
                 count
               }
               results {
-                image, name, 
+                id, image, name, 
                 status, species, gender
               }
             }

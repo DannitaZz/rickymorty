@@ -3,22 +3,21 @@ import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 import axios from 'axios';
 
-export default function PaginationControlled({ count, page, dispatch }) {
+export default function PaginationLocation({ count, page, dispatch }) {
 
     const handleChange = async (event, value) => {
 
         const bodyRepo = {
             "query": `
-                query {
-                    characters(page: ${Number(value)})  {
-                        results {
-                            id, image, name, 
-                            status, species, gender
-                          }
-                    }
+            query {
+                locations(page: ${Number(value)}){
+                  results{
+                    id, name, type, residents {name}
                   }
-                
-            `
+                }
+              }
+            
+        `
         }
 
         const baseUrl = "https://rickandmortyapi.com/graphql";
@@ -27,8 +26,8 @@ export default function PaginationControlled({ count, page, dispatch }) {
         }
 
         const response = await axios({ method: "post", url: baseUrl, data: JSON.stringify(bodyRepo), headers: headers });
-        const fulldata = response.data.data.characters.results;
-        dispatch({ type: 'setInfoPage', page: value, currentData: fulldata })
+        const fulldata = response.data.data.locations.results;
+        dispatch({ type: 'setLocations', locationPage: value, currentLocations: fulldata })
     };
 
     return (

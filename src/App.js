@@ -21,6 +21,9 @@ function App() {
             element={
               <Info
                 currentData={state.infoPage.currentData}
+                locations={state.infoPage.currentLocations}
+                locationCount={state.locationCount}
+                locationsPage={state.infoPage.locationsPage}
                 page={state.infoPage.page}
                 count={state.count}
                 dispatch={dispatch}

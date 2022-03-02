@@ -1,9 +1,13 @@
 export const initialState = {
   data: [],
   count: 1,
+  locations: [],
+  locationCount: 1,
   infoPage: {
     currentData: [],
     page: 1,
+    currentLocations: [],
+    locationPage: 1,
   },
 };
 
@@ -25,6 +29,28 @@ export const reducer = (state, action) => {
           ...state.infoPage,
           page: action.page,
           currentData: action.currentData,
+        },
+      };
+    case "getLocations":
+      const locations = action.data;
+      const locationCount = action.count;
+      return {
+        ...state,
+        locations: locations,
+        locationCount: locationCount,
+        infoPage: {
+          ...state.infoPage,
+          currentLocations: locations,
+          locationPage: 1,
+        },
+      };
+    case "setLocations":
+      return {
+        ...state,
+        infoPage: {
+          ...state.infoPage,
+          locationPage: action.locationPage,
+          currentLocations: action.currentLocations,
         },
       };
     default:
