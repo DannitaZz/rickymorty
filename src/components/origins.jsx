@@ -5,102 +5,125 @@ import Accordion from '@mui/material/Accordion';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import PaginationLocation from './pagination-location';
 import { useConsumer } from '../context/context';
 
-export function Origins() {
-    const [state, dispatch] = useConsumer();
-    const body = (page) => {
-        const bodyRepo = {
-            "query": `
-        query {
-            characters(page: ${Number(page)}) {
-              results{
-                name, origin {name}
-              }
-            }
+function performQuery({ pageNumber, apiUrl }) {
+	const query = `query {
+        characters(page: ${pageNumber}) {
+          results{
+            name, origin {name}
           }
-    `
         }
-        return bodyRepo
-    }
+      }`
+	const request = {
+		url: apiUrl,
+		method: 'post',
+		headers: {
+			"Content-Type": "application/json"
+		},
+		data: {
+			query: query
+		}
+	}
 
-    const baseUrl = "https://rickandmortyapi.com/graphql";
-    const headers = {
-        "Content-Type": "application/json"
-    }
-
-    useEffect(() => {
-        async function getOrigins() {
-            try {
-                let origins = []
-                let characters = []
-                for (let i = 1; i > 43; i++) {
-                    const response = await axios({ method: "post", url: baseUrl, data: JSON.stringify(body(i)), headers: headers });
-                    const originsData = response.data.data.characters.results;
-                    characters.push(originsData);
-                    console.log('response', response);
-                }
-                console.log('Characters', characters);
-                /* const response = await axios({ method: "post", url: baseUrl, data: JSON.stringify(body(1)), headers: headers });
-                const originsData = response.data.data.characters.results; */
-                /* originsData.forEach((char, i) => {
-                    origins.push(char.origin.name);
-                }) */
-                console.log('Origins', origins);
-                // dispatch({ type: 'getLocations', data: locations, count: locationCount })
-
-            } catch (error) {
-                console.error(error);
-            }
-        }
-        getOrigins();
-
-    }
-        , [])
-    const checkData = (data, key) => {
-        try {
-            return data[key]
-        }
-        catch {
-            return 'loading'
-        }
-    }
-
-    const [expanded, setExpanded] = useState(false);
-
-    const handleChange = (panel) => (event, isExpanded) => {
-        setExpanded(isExpanded ? panel : false);
-    };
-
-    return (
-        <>
-            <p>Orígenes</p>
-            {/* {state.infoPage.currentLocations.map((location, i) => {
-                return (
-                    <Accordion key={'ac' + i} expanded={expanded === `panel${i}`} onChange={handleChange(`panel${i}`)}>
-                        <AccordionSummary
-                            expandIcon={<ExpandMoreIcon />}
-                            aria-controls="panel1bh-content"
-                            id="panel1bh-header"
-                        >
-                            <Typography sx={{ width: '33%', flexShrink: 0 }}>
-                                {checkData(location, 'name')}
-                            </Typography>
-                            <Typography sx={{ color: 'text.secondary' }}> {checkData(location, 'type')}</Typography>
-                        </AccordionSummary>
-                        <AccordionDetails>
-                            <Typography sx={{ textAlign: 'center' }}>
-                                Residents: {location.residents.map((resident, i) => {
-                                    return <li key={'r' + i}>{resident.name}</li>
-                                })}
-                            </Typography>
-                        </AccordionDetails>
-                    </Accordion>
-                )
-            })}
-            <PaginationLocation count={parseInt(state.locationCount / 20)} page={state.infoPage.locationPage} dispatch={dispatch} /> */}
-        </>
-    )
+	return axios(request)
 }
+
+async function getAllData({ pages, apiUrl }) {
+	let promises = Array.from({ length: pages }, (_, i) => i + 1)
+	promises = promises.map(i => performQuery({ pageNumber: i, apiUrl: apiUrl }))
+	let rawResults = await Promise.all(promises)
+	return rawResults
+}
+
+function processOrigins(rawResults) {
+	let results = rawResults.map(item => item.data.data.characters.results)
+
+	let flatResults = []
+
+	for (let i = 0; i < results.length; i++) {
+		flatResults.push(...results[i]);
+	}
+
+	let originsArr = flatResults.map(item => item.origin.name)
+	originsArr = new Array(...new Set(originsArr))
+	let origins = {}
+
+	for (let item of originsArr) {
+		origins[item] = []
+	}
+
+	flatResults.forEach(item => { origins[item.origin.name].push(item.name) })
+
+	return origins
+
+}
+
+async function getOrigins() {
+	const API_URL = 'https://rickandmortyapi.com/graphql'
+
+	const info_response = await axios.get('https://rickandmortyapi.com/api/character/')
+	const info = info_response.data.info
+	const pages = info.pages
+	const rawResults = await getAllData({ pages: pages, apiUrl: API_URL })
+	const origins = processOrigins(rawResults)
+
+	return origins
+}
+
+export function Origins() {
+	const [state, dispatch] = useConsumer();
+	const [expanded, setExpanded] = useState(false);
+
+	const handleChange = (panel) => (event, isExpanded) => {
+		setExpanded(isExpanded ? panel : false);
+	};
+
+	useEffect(() => {
+
+		async function checkData() {
+			let originData = localStorage.getItem('originData')
+			if (originData === null) {
+				originData = await getOrigins()
+				localStorage.setItem('originData', JSON.stringify(originData))
+			} else {
+				originData = JSON.parse(originData)
+			}
+			dispatch({ type: 'setOrigins', originData: originData })
+		}
+		checkData()
+	}
+		, [])
+
+
+	return (
+		<>
+			{state.infoPage.currentOriginData.map((origin, i) => {
+				return (
+					<Accordion key={'ac' + i} expanded={expanded === `panel${i}`} onChange={handleChange(`panel${i}`)}>
+						<AccordionSummary
+							expandIcon={<ExpandMoreIcon />}
+							aria-controls="panel1bh-content"
+							id="panel1bh-header"
+						>
+							<Typography sx={{ width: '33%', flexShrink: 0 }}>
+								{origin[0]}
+							</Typography>
+							<Typography sx={{ color: 'text.secondary' }}> {/* {checkData(location, 'type')} */}</Typography>
+						</AccordionSummary>
+						<AccordionDetails>
+							<Typography sx={{ textAlign: 'center' }}>
+								Natives: {origin[1].map((resident, i) => {
+									return <li key={'r' + i}>{resident}</li>
+								})}
+							</Typography>
+						</AccordionDetails>
+					</Accordion>
+				)
+			})}
+		</>
+	)
+}
+
+
 

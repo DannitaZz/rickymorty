@@ -125,13 +125,13 @@ export const reducer = (state, action) => {
       }
     case "setOrigins":
       const arrayOrigins = Object.entries(action.originData);
-      console.log(arrayOrigins.length);
+      const originsFiltered = arrayOrigins.filter((e) => e[0] !== "unknown");
       return {
         ...state,
         countOrigin: arrayOrigins.length,
         infoPage: {
           ...state.infoPage,
-          currentOriginData: arrayOrigins,
+          currentOriginData: originsFiltered,
         },
       };
     case "setOriginPage":
