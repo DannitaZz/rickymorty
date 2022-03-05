@@ -31,6 +31,7 @@ export const initialState = {
   count: numCharacters,
   locations: [],
   locationCount: numEpisodes,
+  episodesCount: numEpisodes,
   originCount: 1,
   infoPage: {
     currentData: [],
@@ -49,6 +50,12 @@ export const initialState = {
       image: defaultImg,
     }),
     packs: Array(4).fill(true),
+  },
+  albumPage: {
+    charPage: 1,
+    currentChars: [...initialAlbumCharacters.slice(0, 20)],
+    epiPage: 1,
+    currentEpis: [...initialAlbumEpisodes.slice(0, 20)],
   },
 };
 
@@ -116,6 +123,22 @@ export const reducer = (state, action) => {
       } else {
         return { ...state };
       }
+    case "setOrigins":
+      const arrayOrigins = Object.entries(action.originData);
+      console.log(arrayOrigins.length);
+      return {
+        ...state,
+        countOrigin: arrayOrigins.length,
+        infoPage: {
+          ...state.infoPage,
+          currentOriginData: arrayOrigins,
+        },
+      };
+    case "setOriginPage":
+      return {
+        ...state,
+        infoPage: { ...state.infoPage, originPage: action.page },
+      };
     case "addItem":
       if (action.value.itemType === "character") {
         let newAlbumCharacters = [...state.albumCharacters];
@@ -133,7 +156,24 @@ export const reducer = (state, action) => {
       } else {
         return { ...state };
       }
-
+    case "setAlbumCharPage":
+      return {
+        ...state,
+        albumPage: {
+          ...state.albumPage,
+          charPage: action.page,
+          currentChars: action.currentAlbum,
+        },
+      };
+    case "setAlbumEpiPage":
+      return {
+        ...state,
+        albumPage: {
+          ...state.albumPage,
+          epiPage: action.page,
+          currentEpis: action.currentAlbum,
+        },
+      };
     default:
       return { ...state };
   }
