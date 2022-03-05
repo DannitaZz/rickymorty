@@ -19,13 +19,11 @@ export default function OpenedCard({ id, name, type, image }) {
 	let isObtained = validate(type, id)
 
 	function handleClickPlus() {
-		console.log('is obtained?', isObtained);
 		dispatch({ type: 'addItem', value: { itemType: type, itemId: id, data: { id: id, name: name, type: type, image: image } } })
 	}
 
 	function handleClickMinus() {
-		console.log('is obtained???', isObtained);
-		console.log('do nothing')
+		console.log('do nothing');
 	}
 
 	return <Card sx={{ display: { xs: 'block', sm: 'block', maxHeight: '350px', maxWidth: '250px' }, margin: '10px' }}>
@@ -48,9 +46,6 @@ export default function OpenedCard({ id, name, type, image }) {
 				<Typography gutterBottom variant="h5" component="div" sx={{ textAlign: 'center' }}>
 				</Typography>
 				{name}
-				{/* {type} */}
-				{/* {id} */}
-				{/* {image} */}
 				{(() => {
 					if (type === 'character' && state.albumCharacters[id].id === 9999) {
 						return (<Tooltip title='add to album'>

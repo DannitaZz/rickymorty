@@ -86,12 +86,6 @@ export default function OpenedSheets() {
 
 				dispatch({ type: 'setCardPack', results: results })
 
-				/* const isCharObtained = characters.map(item => !item.id == 9999)
-				const isEpisObtained = episode_.map(item => !item.id == 9999)
-
-				console.log(isCharObtained)
-				console.log(isEpisObtained) */
-
 			} catch (error) {
 				console.log(error);
 			}
