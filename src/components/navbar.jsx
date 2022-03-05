@@ -52,7 +52,7 @@ const ResponsiveAppBar = () => {
   const navigateToView = (e) => {
     const value = Number(e.currentTarget.value);
     if (value === 0) {
-      navigateTo('sheets');
+      navigateTo('sheets/closed');
     } else if (value === 1) {
       navigateTo('/')
     } else if (value === 2) {
@@ -62,7 +62,7 @@ const ResponsiveAppBar = () => {
 
 
   return (
-    <AppBar position="static">
+    <AppBar position="sticky">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Box sx={{ flexGrow: 0, marginRight: 1 }}>
