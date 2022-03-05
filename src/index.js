@@ -5,15 +5,23 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import CssBaseline from "@mui/material/CssBaseline";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { checkValue } from "./utils";
+
+const appName = "rick_morty_api";
+const version = "0.1";
+checkValue("appName", appName);
+checkValue("version", version);
+localStorage.setItem("appName", appName);
+localStorage.setItem("version", version);
 
 let theme = createTheme({
   palette: {
     mode: "light",
     primary: {
-      main: "#FF1C1C",
+      main: "#0C9EB0",
     },
     secondary: {
-      main: "#f50057",
+      main: "#BBD665",
     },
   },
 });
@@ -29,7 +37,4 @@ ReactDOM.render(
   document.getElementById("root")
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
