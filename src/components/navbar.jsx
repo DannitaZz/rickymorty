@@ -14,8 +14,23 @@ import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import { CardMedia } from '@mui/material';
 import rick from '../img/rick.png';
 import { useNavigate } from 'react-router';
+import { useConsumer } from '../context/context';
 
 const pages = ['Láminas', 'Mi álbum', 'Info'];
+
+function Timer() {
+  const [state, dispatch] = useConsumer();
+
+  React.useEffect(() => {
+    const timerVal = state.packPage.timerVal
+    const timer = timerVal > 0 && setInterval(() => dispatch({ 'type': 'setTimer', 'value': timerVal - 1 }), 10000);
+    return () => clearInterval(timer);
+  }, [state.packPage.timerVal]);
+
+  return (
+    <div>Countdown: {state.packPage.timerVal}</div>
+  );
+}
 
 const ResponsiveAppBar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -23,7 +38,7 @@ const ResponsiveAppBar = () => {
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
-    
+
   };
   const handleOpenUserMenu = () => {
     console.log('cerrar sesión');
@@ -36,12 +51,12 @@ const ResponsiveAppBar = () => {
 
   const navigateToView = (e) => {
     const value = Number(e.currentTarget.value);
-    if (value === 0){
-        navigateTo('sheets');
+    if (value === 0) {
+      navigateTo('sheets');
     } else if (value === 1) {
-        navigateTo('/')
+      navigateTo('/')
     } else if (value === 2) {
-        navigateTo('info')
+      navigateTo('info')
     }
   }
 
@@ -50,14 +65,14 @@ const ResponsiveAppBar = () => {
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-        <Box sx={{ flexGrow: 0, marginRight: 1}}>
+          <Box sx={{ flexGrow: 0, marginRight: 1 }}>
             <CardMedia
-            component='img'
-            height="35"
-            image={rick}
-            alt="rick"
+              component='img'
+              height="35"
+              image={rick}
+              alt="rick"
             />
-            </Box>
+          </Box>
           <Typography
             variant="h5"
             noWrap
@@ -123,7 +138,7 @@ const ResponsiveAppBar = () => {
               </Button>
             ))}
           </Box>
-
+          <Timer />
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Logout">
               <ExitToAppIcon onClick={handleOpenUserMenu} sx={{ p: 0 }}>

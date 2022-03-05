@@ -15,10 +15,10 @@ function App() {
         <Routes>
           <Route element={<Layout />}>
             <Route path="/" element={<Album />} />
-            <Route path="sheets" element={<Sheets />}>
-              <Route path="opened" element={<OpenedSheets />} />
-              <Route path="closed" element={<ClosedSheets />} />
-            </Route>
+            {/* <Route path="sheets" element={<Sheets />}> */}
+            <Route path="sheets/opened" element={<OpenedSheets />} />
+            <Route path="sheets/closed" element={<ClosedSheets />} />
+            {/* </Route> */}
             <Route path="info" element={<Info />} />
           </Route>
         </Routes>
