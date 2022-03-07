@@ -12,10 +12,8 @@ export default function CardPack({ num }) {
 	const handleClick = (e) => {
 		if (state.packPage.timerVal == 0) {
 			navigateTo('/sheets/opened');
-			dispatch({ 'type': 'setTimer', 'value': 10 })
+			dispatch({ 'type': 'setTimer', 'value': 60 })
 			dispatch({ 'type': 'closePack', 'value': num })
-		} else {
-			console.log("nope")
 		}
 	}
 

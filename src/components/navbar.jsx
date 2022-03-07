@@ -23,7 +23,7 @@ function Timer() {
 
   React.useEffect(() => {
     const timerVal = state.packPage.timerVal
-    const timer = timerVal > 0 && setInterval(() => dispatch({ 'type': 'setTimer', 'value': timerVal - 1 }), 10000);
+    const timer = timerVal > 0 && setInterval(() => dispatch({ 'type': 'setTimer', 'value': timerVal - 1 }), 1000);
     return () => clearInterval(timer);
   }, [state.packPage.timerVal]);
 

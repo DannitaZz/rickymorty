@@ -22,18 +22,14 @@ export default function OpenedCard({ id, name, type, image }) {
 		dispatch({ type: 'addItem', value: { itemType: type, itemId: id, data: { id: id, name: name, type: type, image: image } } })
 	}
 
-	function handleClickMinus() {
-		console.log('do nothing');
-	}
-
 	return <Card sx={{ display: { xs: 'block', sm: 'block', maxHeight: '350px', maxWidth: '250px' }, margin: '10px' }}>
 		<CardMedia
 			component="img"
-			height="300px"
+			height="200px"
 			image={image}
 			alt={'a'}
 			sx={{
-				maxHeight: '250px',
+				maxHeight: '200px',
 				align: 'center',
 				margin: '0px',
 				padding: '0px',
@@ -43,7 +39,8 @@ export default function OpenedCard({ id, name, type, image }) {
 		/>
 		<CardContent>
 			<Stack sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-				<Typography gutterBottom variant="h5" component="div" sx={{ textAlign: 'center' }}>
+				<Typography gutterBottom variant="p" component="div" sx={{ textAlign: 'center' }}>
+					# {id}
 				</Typography>
 				{name}
 				{(() => {
@@ -57,7 +54,7 @@ export default function OpenedCard({ id, name, type, image }) {
 						</Tooltip>)
 					} else {
 						return (<Tooltip title='discard'>
-							<RemoveCircleIcon fontSize='large' onClick={handleClickMinus} />
+							<RemoveCircleIcon fontSize='large' />
 						</Tooltip>)
 					}
 				})()}
