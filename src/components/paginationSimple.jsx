@@ -7,8 +7,6 @@ export default function PaginationSimple({ data, count, page, dispatch }) {
 
 	const handleChange = async (event, value) => {
 		const currentData = data.slice((value - 1) * 20, value * 20);
-		console.log('current', currentData);
-		console.log(count * 20);
 		if (count * 20 > 60) {
 			dispatch({ type: 'setAlbumCharPage', page: value, currentAlbum: currentData })
 		} else {

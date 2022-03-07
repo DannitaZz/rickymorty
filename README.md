@@ -23,3 +23,4 @@
 - Estilos para diferencia la vista actual en la barra de navegación
 - Cambiar el placeholder para los episodios debido a que estos no tienen imagen
 - Login
+- Usar variables de entorno para almacenar URLs y otras variables globales
