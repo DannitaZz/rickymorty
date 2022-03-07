@@ -17,7 +17,6 @@ export default function AlbumList({ fullData, data, count, page, dispatch }) {
 			return 'loading'
 		}
 	}
-	console.log(data)
 	return (
 		<>
 			<div className='fade-in' style={{ width: '100vw', display: 'flex', flexDirection: 'row', flexFlow: 'row wrap', justifyContent: 'center' }}>
@@ -27,11 +26,11 @@ export default function AlbumList({ fullData, data, count, page, dispatch }) {
 							<Card key={`${checkData(char, 'id')}`} sx={{ display: { xs: 'none', sm: 'block', height: '300px' }, maxWidth: '200px', margin: '10px' }}>
 								<CardMedia
 									component="img"
-									height="300px"
+									height="200px"
 									image={char.image}
 									alt={checkData(char, 'name')}
 									sx={{
-										height: '250px',
+										height: '200px',
 										align: 'center',
 										margin: '0px',
 										padding: '0px',
@@ -40,10 +39,21 @@ export default function AlbumList({ fullData, data, count, page, dispatch }) {
 									}}
 								/>
 								<CardContent>
-
-									<Typography gutterBottom variant="h6" component="div" sx={{ textAlign: 'center' }}>
-										{checkData(char, 'name')}
-									</Typography>
+									<Stack sx={{
+										display: 'flex',
+										flexDirection: 'column',
+										margin: '0px',
+										padding: '0px',
+										border: '0px',
+										marginLeft: '5px'
+									}}>
+										{checkData(char, 'id') === 9999 ? <span></span> : <Typography gutterBottom variant="h6" component="div" sx={{ textAlign: 'center' }}>
+											# {checkData(char, 'id')}
+										</Typography>}
+										<Typography gutterBottom variant="h6" component="div" sx={{ textAlign: 'center' }}>
+											{checkData(char, 'name')}
+										</Typography>
+									</Stack>
 
 								</CardContent>
 							</Card>
@@ -60,9 +70,11 @@ export default function AlbumList({ fullData, data, count, page, dispatch }) {
 											marginLeft: '5px'
 										}}>
 											<Typography gutterBottom variant="h6" component="div">
+												{checkData(char, 'id')}
+											</Typography>
+											<Typography gutterBottom variant="h6" component="div">
 												{checkData(char, 'name')}
 											</Typography>
-
 										</Stack>
 
 									</CardContent>
